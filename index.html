@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost Editor</title>
+<link rel="stylesheet" href="texture.css">
+<style>
+body {
+  background: #0e0e0e;
+  color: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px;
+  margin: 0;
+}
+h1, h2 { margin-top: 20px; }
+h2 { border-bottom: 1px solid #444; padding-bottom: 5px; }
+input, select, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+select[multiple] { height: 200px; }
+button { background: #2d7cff; cursor: pointer; border: 1px solid #0a5acd; font-weight: bold; margin-bottom: 10px;}
+button:hover { background: #1a60d1; }
+.wave, .zombieRow { border: 1px solid #333; padding: 10px; margin-top: 10px; background: #121212; border-radius: 4px; }
+textarea { height: 400px; font-family: monospace; }
+.smallBtn { width: auto; padding: 5px 15px; }
+.connections { display: flex; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; }
+.connections button { flex: 1 1 30%; margin: 5px; }
+footer { text-align: center; padding: 20px; margin-top: 30px; border-top: 1px solid #444; font-size: 0.9em; color: #ccc; }
+</style>
+</head>
+<body>
+<h1>Lost Editor</h1>
+
+<h2>Level Info</h2>
+<input id="levelName" placeholder="Level Name">
+<input id="levelDesc" placeholder="Level Description">
+
+<h2>Stage</h2>
+<select id="stage">
+  <option value="TutorialStage">Tutorial</option>  
+  <option value="FrontLawnStage">Front Lawn</option>  
+  <option value="FrontLawnBeachStage">Front Lawn Beach</option>  
+  <option value="FrontLawnBirthdayStage">Front Lawn Birthday</option>  
+  <option value="FrontLawnDarkStage">Front Lawn Dark</option>  
+  <option value="FrontLawnDinoStage">Front Lawn Dino</option>  
+  <option value="FrontLawnEightiesStage">Front Lawn Eighties</option>  
+  <option value="FrontLawnFallStage">Front Lawn Fall</option>  
+  <option value="FrontLawnFutureStage">Front Lawn Future</option>  
+  <option value="FrontLawnHalloweenStage">Front Lawn Halloween</option>  
+  <option value="FrontLawnIceageStage">Front Lawn Ice Age</option>  
+  <option value="FrontLawnLostCityStage">Front Lawn Lost City</option>  
+  <option value="FrontLawnPaddysStage">Front Lawn Paddy's Day</option>  
+  <option value="FrontLawnSpringStage">Front Lawn Spring</option>  
+  <option value="FrontLawnSummerNightsStage">Front Lawn Summer Nights</option>  
+  <option value="FrontLawnXmasStage">Front Lawn Xmas</option>  
+  <option value="FrontLawnValentinesStage">Front Lawn Valentines</option>  
+  <option value="FrontLawnBigBrainzStage">Front Lawn Big Brainz</option>  
+  <option value="FrontYardHarvestStage">Front Yard Harvest</option>  
+  <option value="JoustStage">Joust</option>  
+  <option value="HeroesStage">Heroes</option>  
+  <option value="RiftStage">Rift</option>  
+  <option value="RiftPirateStage">Rift Pirate Seas</option>  
+  <option value="RiftStageZcorp">Rift Z-Corp</option>  
+  <option value="RiftStageCarnie">Rift Carnie</option>  
+  <option value="RiftStageScore">Rift Score Mode</option>  
+  <option value="FoodfightStage">Food Fight</option>  
+  <option value="FeastivusStage">Feastivus</option>  
+  <option value="EgyptStage">Ancient Egypt</option>  
+  <option value="EgyptNightsStage">Ancient Egypt (Night)</option>  
+  <option value="EgyptStageUnlimitedPowerups">Ancient Egypt (Unlimited Powerups)</option>  
+  <option value="EgyptStageNoPowerUps">Ancient Egypt (No Powerups)</option>  
+  <option value="PirateStage">Pirate Seas</option>  
+  <option value="PirateNightsStage">Pirate Seas (Night)</option>  
+  <option value="WestStage">Wild West</option>  
+  <option value="WestNightsStage">Wild West (Night)</option>  
+  <option value="FutureStage">Far Future</option>  
+  <option value="FutureNightStage">Far Future (Night)</option>  
+  <option value="FutureCatStage">Far Future (Cat)</option>  
+  <option value="DarkStage">Dark Ages</option>  
+  <option value="DarkDayStage">Dark Ages (Day)</option>  
+  <option value="BeachStage">Big Wave Beach</option>  
+  <option value="BeachNightStage">Big Wave Beach (Night)</option>  
+  <option value="BeachStageNoPowerUps">Big Wave Beach (No Powerups)</option>  
+  <option value="PoolDayLightStage">Pool (Day)</option>  
+  <option value="LostCityStage">Lost City</option>  
+  <option value="LostCityNightsStage">Lost City (Night)</option>  
+  <option value="LostCityStageNoPowerUps">Lost City (No Powerups)</option>  
+  <option value="IceageStage">Ice Age</option>  
+  <option value="IceageNightStage">Ice Age (Night)</option>  
+  <option value="IceageStageNoPowerUps">Ice Age (No Powerups)</option>  
+  <option value="EightiesStage">Neon Mixtape Tour</option>  
+  <option value="DinoStage">Jurassic Marsh</option>  
+  <option value="DinoNightStage">Jurassic Marsh (Night)</option>  
+  <option value="ModernStage">Modern Day</option>  
+  <option value="ModernNightStage">Modern Day (Night)</option>  
+  <option value="ModernStageNoPowerUps">Modern Day (No Powerups)</option>  
+  <option value="CarnivalStage">Carnival</option>  
+  <option value="LunarStage">Lunar Zoo</option>  
+  <option value="FairyStage">Fairy Tale</option>  
+  <option value="FairyNightStage">Fairy Tale (Night)</option>  
+  <option value="KongfuStage">Kong Fu World</option>  
+  <option value="KongfuNightStage">Kong Fu World (Night)</option>  
+  <option value="ZCorpStage">Z-Corp</option>  
+  <option value="ZCorpNightStage">Z-Corp (Night)</option>  
+  <option value="Pvz1Stage">PVZ1 Day</option>  
+  <option value="Pvz1NightsStage">PVZ1 Night</option>  
+  <option value="RenaiStage">Renaissance</option>
+  <option value="RenaiNightsStage">Renaissance (Night)</option>
+  <option value="PoolNightStage">Pool (Night)</option>
+</select>
+
+<h2>Minigame</h2>
+<select id="minigame">
+  <option value="">No Minigame</option>
+  <option value="its_raining_seeds">It's raining seeds</option>
+  <option value="ZombieNimbleZombieQuick">ZombieNimbleZombieQuick</option>
+  <option value="column_like_you_see_em">Column like you see em</option>
+  <option value="Invisighoul">Invisighoul</option>
+</select>
+
+<h2>Music</h2>
+<select id="music">
+  <option value="">No Music</option>
+  <option value="KongFuModule">KongFuModule</option>
+  <option value="KongFUUBModule">KongFUUBModule</option>
+  <option value="KongFUDMGModule">KongFUDMGModule</option>
+  <option value="ZcorpUBModule">ZcorpUBModule</option>
+  <option value="ZcorpDMGModule">ZcorpDMGModule</option>
+  <option value="VasebreakerModule">VasebreakerModule</option>
+  <option value="FogModule">FogModule</option>
+  <option value="FairyModule">FairyModule</option>
+  <option value="FairyUBModule">FairyUBModule</option>
+  <option value="RenaiThemeModule">RenaiThemeModule</option>
+  <option value="RenaiUBModule">RenaiUBModule</option>
+  <option value="RenaiDMGModule">RenaiDMGModule</option>
+  <option value="PvZ1Module">PvZ1Module</option>
+  <option value="WateryGravesModule">WateryGravesModule</option>
+  <option value="BeachDMGModule">BeachDMGModule</option>
+  <option value="FairyDMGModule">FairyDMGModule</option>
+  <option value="UltimateBattle">Ultimate Battle</option>
+  <option value="DemonstrationMinigame">Demonstration Minigame</option>
+</select>
+
+<h2>Seed Bank</h2>
+<select id="seedMode">
+  <option value="chooser">Chooser (Pick your plants)</option>
+  <option value="preset">Preset (Locked plants)</option>
+  <option value="conveyor">Conveyor Belt</option>
+</select>
+
+<label style="display:block; margin-top:15px;">Plants (Hold Ctrl/Cmd to select multiple):</label>
+<select id="plants" multiple></select>
+
+<h2>Waves</h2>
+<button onclick="addWave()">+ Add New Wave</button>
+<div id="waves"></div>
+
+<h2>Export</h2>
+<button onclick="generate()" style="background: #28a745; border-color: #1e7e34;">GENERATE JSON</button>
+<textarea id="output" readonly placeholder="JSON will appear here..."></textarea>
+
+<h2>Connections</h2>
+<div class="connections">
+  <button onclick="window.open('https://youtube.com/@pvz2scaredyleaves?si=DRQaLAm1IU94jsW6','_blank')">YouTube</button>
+  <button onclick="window.open('https://discord.gg/SMarXCrxEB','_blank')">Discord</button>
+  <button onclick="window.open('https://pvzhardtime358-cmd.github.io/Lost-Leaves/','_blank')">Other Site</button>
+</div>
+
+<footer>©️ All rights reserved to Scaredy Leaves</footer>
+
+<script>
+const PLANTS=["sunflower","peashooter","wallnut","potatomine","bloomerang","cabbagepult","iceburg","gravebuster","twinsunflower","starfruit","bonkchoy","repeater","snowpea","kernelpult","snapdragon","powerlily","spikeweed","coconutcannon","cherry_bomb","springbean","spikerock","threepeater","squash","splitpea","chilibean","torchwood","lightningreed","tallnut","jalapeno","peapod","tumbleweed","melonpult","wintermelon","ghostpepper","lavaguava","redstinger","shinevine","akee","endurian","toadstool","unused_4","stallia","goldleaf","hypnoshroom","sunshroom","puffshroom","unused_27","fumeshroom","sunbean","peanut","magnetshroom","megapuff","imitater","marigold","laser_bean","blover","citron","empea","holonut","magnifyinggrass","unused_6","powerplant","unused_5","chomper","lilypad","tanglekelp","bowlingbulb","unused_30","homingthistle","guacodile","unused_31","unused_32","banana","unused_25","sweetpotato","unused_9","sapfling","unused_28","unused_29","hurrikale","hotpotato","pepperpult","chardguard","firepeashooter","unused_26","stunion","unused_1","xshot","dandelion","strawburst","cactus","phatbeet","celerystalker","thymewarp","electricblueberry","garlic","sporeshroom","intensivecarrot","jackolantern","grapeshot","primalpeashooter","primalwallnut","perfumeshroom","coldsnapdragon","primalsunflower","primalpotatomine","shrinkingviolet","moonflower","nightshade","shadowshroom","bloominghearts","dusklobber","unused_3","gloomvine","escaperoot","grimrose","goldbloom","electriccurrant","wasabiwhip","explodeonut","kiwibeast","unused_10","aloe","applemortar","bombegranate","witchhazel","parsnip","missiletoe","hotdate","caulipower","solartomato","electricpeashooter","hollyknight","unused_19","unused_20","unused_21","unused_22","unused_23","filamint","peppermint","wintermint","enlightenmint","reinforcemint","bombardmint","ailmint","enchantmint","containmint","enforcemint","armamint","concealmint","spearmint","appeasemint","shadowpeashooter","poisonpeashooter","slingpea","minipeashooter","snappea","burnade","zoybeanpod","dazeychain","unused_12","unused_13","electricitea","blastberry","pokra","imppear","pumpkin","pyrevine","icebloom","dartichoke","ultomato","gumnut","olivepit","puffball","explodeovine","murkadamia","turkeypult","headbutter","boingsetta","stickybombrice","hocus","draftodil","boomflower","pvine","inferno","solarsage","powervine","noctarine","heathseeker","iceweed","tigergrass","teleportatomine","blockoli","buttercup","bramblebush","unused_14","unused_16","unused_18","unused_36","unused_17","unused_24","unused_33","unused_35","unused_34","unused_69","unused_42","unused_40","unused_39","unused_37","unused_15","unused_2","unused_38","unused_7","unused_8","unused_41","unused_104","unused_70","unused_71","unused_72","unused_108","unused_99","unused_68","unused_67","unused_66","unused_65","unused_61","unused_64","unused_62","unused_63","unused_73","unused_74","unused_75","unused_76","unused_77","unused_79","unused_83","unused_84","unused_86","unused_87","unused_88","unused_89","blueberries","nippycabbage","dragonfruit","hydrocotyledrummer","winterrambutan"];  
+const ZOMBIES=["tutorial","tutorial_armor1","tutorial_armor2","tutorial_armor4","tutorial_flag","tutorial_flag_veteran","tutorial_imp","tutorial_gargantuar","vase_gargantuar","mummy","mummy_armor1","mummy_armor2","mummy_armor4","mummy_flag","mummy_flag_veteran","ra","camel_almanac","explorer","explorer_veteran","cleopatra","egypt_supervisor","egyptologist","tomb_raiser","pharaoh","egypt_imp","egypt_gargantuar","zombossmech_egypt","pirate","pirate_armor1","pirate_armor2","pirate_armor4","pirate_flag","pirate_flag_veteran","swashbuckler","seagull","pelican","barrelroller","pirate_imp","cannon","pirate_captain","pirate_captain_parrot","pirate_bombthrower","pirate_conman","pirate_gargantuar","zombossmech_pirate","cowboy","cowboy_armor1","cowboy_armor2","cowboy_armor4","cowboy_flag","cowboy_flag_veteran","prospector","piano","poncho","chicken_farmer","chicken","west_bull","west_bull_veteran","west_bullrider","west_taco_champion","desperado","prospector_spice","west_scarecrow_farmer","cowboy_gargantuar","zombossmech_cowboy","treasureyeti","future","future_armor1","future_armor2","future_armor4","future_flag","future_flag_veteran","future_jetpack","future_jetpack_veteran","future_protector","future_robot","future_robot_armor1","future_robot_armor2","future_protector_veteran","future_portalspawner","future_dark","future_dark_armor1","future_dark_armor2","future_dark_armor4","future_dark_flag","future_imp","mech_cone","disco_mech","future_jetpack_disco","football_mech","future_gargantuar","zombossmech_future","dark","dark_armor1","dark_armor2","dark_armor3","dark_armor4","dark_flag","dark_flag_veteran","dark_imp","dark_juggler","dark_gargantuar","dark_wizard","dark_rogue","dark_falseknight","dark_failedchampion","dark_gravedigger","dark_necromancer","dark_wizard_veteran","warlock","dark_earth_wizard","frost_wizard","fire_wizard","dark_wizard_alchmist","dark_king","dark_imp_dragon","zombossmech_dark","beach","beach_armor1","beach_armor2","beach_flag","beach_octopus_veteran","beach_snorkel_fiend","beach_surfer_veteran","beach_snorkel_veteran","beach_fem","beach_fem_armor1","beach_fem_armor2","beach_snorkel","beach_imp","beach_surfer","beach_gargantuar","beach_fisherman","beach_octopus","zombossmech_beach","iceage","iceage_armor1","iceage_armor2","iceage_armor3","iceage_flag","iceage_hunter","iceage_imp","iceage_dodo","iceage_troglobite","iceage_weaselhoarder","iceage_weasel","iceage_gargantuar","iceage_hunter_veteran","iceage_troglobite_veteran","iceage_weaselhoarder_veteran","fat_weasel","iceage_weasel_elite_fat","iceage_icebreaker","viking_shieldcrusher","zombossmech_iceage","lostcity","lostcity_armor1","lostcity_armor2","lostcity_flag","lostcity_imp","lostcity_lostpilot","lostcity_excavator","lostcity_jane","lostcity_bug","lostcity_gargantuar","lostcity_impporter","lostcity_relichunter","lostcity_crystalskull","lostcity_jane_veteran","lostcity_excavator_veteran","zombossmech_lostcity","eighties","eighties_armor1","eighties_armor2","eighties_flag","eighties_punk","eighties_glitter","eighties_mc","eighties_imp","eighties_gargantuar","eighties_breakdancer","eighties_arcade","eighties_8bit","eighties_boombox","zombossmech_eighties","dino","dino_armor1","dino_armor2","dino_armor3","dino_armor4","dino_flag","dino_flag_veteran","dino_imp","dino_gargantuar","dino_bully","dino_bully_veteran","dino_cheesepusher","dino_pole","dino_amberpusher","zombossmech_dino","roman","roman_armor1","roman_armor2","roman_armor3","roman_armor4","roman_flag","roman_healer","roman_shield_almanac","roman_gargantuar","roman_imp","roman_ballista","roman_medusa","zcorp","zcorp_imp","zcorp_gargantuar","zcorp_fem","zcorp_armor1","zcorp_armor2","zcorp_fem_armor1","zcorp_fem_armor2","zcorp_flag","zcorp_consultant","zcorp_helpdesk","zcorp_racer_chair","carnie","carnie_armor1","carnie_armor2","carnie_armor4","carnie_flag","carnie_cannon","carnie_imp","carnie_imp_twins","carnie_gargantuar","carnie_imp_split","carnie_magician","carnie_firebreather","carnie_stiltwalker","carnie_monkeeteer_puppet","carnie_stiltwalker_veteran","carnie_magician_veteran","carnie_juggler","zombossmech_circus","fairytale","fairytale_armor1","fairytale_armor2","fairytale_flag","fairytale_gargantuar","fairytale_imp_run","fairy_witch","zombossmech_hydra","kongfu","kongfu_armor1","kongfu_armor2","kongfu_armor3","kongfu_monk","kongfu_monk_armor1","kongfu_monk_armor2","kongfu_monk_armor3","kongfu_torch","kongfu_hammer","kongfu_flag","kongfu_monk_flag","kongfu_drink","kongfu_monk_drink","kongfu_monk_blade","kongfu_rocketimp","kongfu_monk_imp","kongfu_qigong_fire","kongfu_monk_nunchaku","renai","renai_flag","renai_armor1","renai_armor2","renai_ballet","renai_perfumer","renai_gargantuar"];
+
+const plantSelect = document.getElementById("plants");
+PLANTS.forEach(p => {
+  const o = document.createElement("option");
+  o.value = o.textContent = p;
+  plantSelect.appendChild(o);
+});
+
+let waveCount = 0;
+function addWave() {
+  waveCount++;
+  const w = document.createElement("div");
+  w.className = "wave";
+  w.innerHTML = `
+    <h3>Wave ${waveCount}</h3>
+    <button class="smallBtn" onclick="addZombie(this)">+ Add Zombie</button>
+    <div class="zombies"></div>`;
+  document.getElementById("waves").appendChild(w);
+}
+
+function addZombie(btn) {
+  const zombiesDiv = btn.parentElement.querySelector(".zombies");
+  const r = document.createElement("div");
+  r.className = "zombieRow";
+  r.innerHTML = `
+    <select class="zombieType">${ZOMBIES.map(z=>`<option>${z}</option>`).join("")}</select>
+    <input class="lane" type="number" min="1" max="5" placeholder="Row">
+    <button class="smallBtn" style="background:#dc3545; width:auto;" onclick="this.parentElement.remove()">X</button>`;
+  zombiesDiv.appendChild(r);
+}
+
+function generate() {
+  const name = document.getElementById("levelName").value || "CustomLevel";
+  const desc = document.getElementById("levelDesc").value || "";
+  const stage = document.getElementById("stage").value;
+  const seedMode = document.getElementById("seedMode").value;
+  const minigame = document.getElementById("minigame").value;
+  const music = document.getElementById("music").value;
+
+  const selectedOptions = Array.from(document.getElementById("plants").selectedOptions);
+  const selectedPlants = selectedOptions.map(opt => opt.value);
+
+  const objects = [];
+  const modules = [
+    "RTID(WidescreenFix@LevelModules)",
+    "RTID(ZombiesDeadWinCon@LevelModules)",
+    "RTID(DefaultZombieWinCondition@LevelModules)",
+    "RTID(DefaultSunDropper@LevelModules)",
+    "RTID(NewWaves@.)"
+  ];
+
+  // Pool Logic Override
+  if (stage === "PoolDayLightStage" || stage === "PoolNightStage") {
+    modules.push("RTID(PoolPuddle@LevelModules)");
+  }
+
+  // Logic for It's Raining Seeds (Overrides Seed Bank)
+  if (minigame === "its_raining_seeds") {
+    modules.push("RTID(DarkStormyNight@LevelModules)", "RTID(Rain@LevelModules)", "RTID(ItsRainingSeeds@LevelModules)");
+    
+    // Forced preset with Lilypad only
+    objects.push({
+      "aliases": ["SeedBank"],
+      "objclass": "SeedBankProperties",
+      "objdata": {
+        "PresetPlantList": [
+          { "PlantType": "lilypad", "Level": -1 }
+        ],
+        "SelectionMethod": "preset"
+      }
+    });
+  } else {
+    // Standard Seed Bank Logic
+    if (seedMode === "chooser") {
+      modules.push("RTID(SeedBank@CurrentLevel)");
+      objects.push({
+        aliases: ["SeedBank"],
+        objclass: "SeedBankProperties",
+        objdata: { SelectionMethod: "chooser" }
+      });
+    } else if (seedMode === "preset") {
+      modules.push("RTID(SeedBank@CurrentLevel)");
+      objects.push({
+        aliases: ["SeedBank"],
+        objclass: "SeedBankProperties",
+        objdata: {
+          SelectionMethod: "preset",
+          PresetPlantList: selectedPlants.map(p => ({ PlantType: p, Level: -1 }))
+        }
+      });
+    } else if (seedMode === "conveyor") {
+      modules.push("RTID(ConveyorBelt@CurrentLevel)");
+      objects.push({
+        aliases: ["ConveyorBelt"],
+        objclass: "ConveyorSeedBankProperties",
+        objdata: {
+          DropDelayConditions: [{ Delay: 3, MaxPackets: 0 }, { Delay: 5, MaxPackets: 4 }],
+          InitialPlantList: selectedPlants.map(p => ({
+            MinCount: 1,
+            MinWeightFactor: 1,
+            PlantType: p,
+            Weight: 20
+          })),
+          SpeedConditions: [{ MaxPackets: 0, Speed: 100 }]
+        }
+      });
+    }
+  }
+  
+  const waveRefs = [];
+  document.querySelectorAll(".wave").forEach((w, i) => {
+    const waveName = `Wave${i + 1}`;
+    const zombies = [];
+    w.querySelectorAll(".zombieRow").forEach(z => {
+      const type = z.querySelector(".zombieType").value;
+      const row = z.querySelector(".lane").value;
+      zombies.push(row ? { Row: parseInt(row), Type: `RTID(${type}@ZombieTypes)` } : { Type: `RTID(${type}@ZombieTypes)` });
+    });
+    objects.push({
+      aliases: [waveName],
+      objclass: "SpawnZombiesJitteredWaveActionProps",
+      objdata: { Zombies: zombies }
+    });
+    waveRefs.push([`RTID(${waveName}@CurrentLevel)`]);
+  });
+
+  objects.push({
+    aliases: ["WaveManagerProps"],
+    objclass: "WaveManagerProperties",
+    objdata: {
+      FlagWaveInterval: 10,
+      WaveCount: waveRefs.length,
+      WaveSpendingPointIncrement: 100,
+      WaveSpendingPoints: 100,
+      Waves: waveRefs
+    }
+  });
+
+  objects.push({
+    aliases: ["NewWaves"],
+    objclass: "WaveManagerModuleProperties",
+    objdata: { WaveManagerProps: "RTID(WaveManagerProps@CurrentLevel)" }
+  });
+
+  const levelObj = {
+    objclass: "LevelDefinition",
+    objdata: {
+      Name: name,
+      Description: desc,
+      StageModule: `RTID(${stage}@LevelModules)`,
+      Modules: modules
+    }
+  };
+
+  if (music === "UltimateBattle") levelObj.objdata.MusicType = "MiniGame_A";
+  else if (music === "DemonstrationMinigame") levelObj.objdata.MusicType = "MiniGame_B";
+  else if (music) modules.push(`RTID(${music}@LevelModules)`);
+
+  objects.push(levelObj);
+  document.getElementById("output").value = JSON.stringify({ version: 1, objects }, null, 2);
+}
+</script>
+</body>
+</html>
