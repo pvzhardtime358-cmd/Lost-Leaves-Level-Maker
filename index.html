@@ -176,8 +176,8 @@ footer { text-align: center; padding: 20px; margin-top: 30px; border-top: 1px so
 <div id="waves"></div>
 
 <h2>Export</h2>
-<button onclick="generate()" style="background: #28a745; border-color: #1e7e34;">GENERATE JSON</button>
-<textarea id="output" readonly placeholder="JSON will appear here..."></textarea>
+<button onclick="generate()" style="background: #28a745; border-color: #1e7e34;">DOWNLOAD JSON</button>
+<textarea id="output" readonly placeholder="JSON preview will appear here..."></textarea>
 
 <h2>Connections</h2>
 <div class="connections">
@@ -228,7 +228,11 @@ function toggleSkyCityOptions() {
 }
 
 function generate() {
-  const name = document.getElementById("levelName").value || "CustomLevel";
+  // Use the name for filename logic
+  const originalName = document.getElementById("levelName").value || "CustomLevel";
+  const fileName = originalName + ".json";
+  
+  const name = originalName;
   const desc = document.getElementById("levelDesc").value || "";
   const stage = document.getElementById("stage").value;
   const seedMode = document.getElementById("seedMode").value;
@@ -247,12 +251,10 @@ function generate() {
     "RTID(NewWaves@.)"
   ];
 
-  // Pool Logic Override
   if (stage === "PoolDayLightStage" || stage === "PoolNightStage") {
     modules.push("RTID(PoolPuddle@LevelModules)");
   }
 
-  // Sky City Logic
   if (stage === "SkyCityStage") {
     const choice = document.getElementById("skyCityBgChoice").value;
     modules.push("RTID(SkyCitySky@CurrentLevel)");
@@ -291,11 +293,8 @@ function generate() {
     }
   }
 
-  // Logic for It's Raining Seeds (Overrides Seed Bank)
   if (minigame === "its_raining_seeds") {
     modules.push("RTID(DarkStormyNight@LevelModules)", "RTID(Rain@LevelModules)", "RTID(ItsRainingSeeds@LevelModules)");
-    
-    // Forced preset with Lilypad only
     objects.push({
       "aliases": ["SeedBank"],
       "objclass": "SeedBankProperties",
@@ -307,7 +306,6 @@ function generate() {
       }
     });
   } else {
-    // Standard Seed Bank Logic
     if (seedMode === "chooser") {
       modules.push("RTID(SeedBank@CurrentLevel)");
       objects.push({
@@ -394,7 +392,25 @@ function generate() {
   else if (music) modules.push(`RTID(${music}@LevelModules)`);
 
   objects.push(levelObj);
-  document.getElementById("output").value = JSON.stringify({ version: 1, objects }, null, 2);
+
+  // --- NEW DOWNLOAD LOGIC ---
+  const finalJson = JSON.stringify({ version: 1, objects }, null, 2);
+  
+  // Update the textarea (so the user can still see it if they want)
+  document.getElementById("output").value = finalJson;
+
+  // Create a blob and trigger a download
+  const blob = new Blob([finalJson], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName; // Uses the Level Name as the filename
+  document.body.appendChild(a);
+  a.click();
+  
+  // Cleanup
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 </script>
 </body>
