@@ -228,16 +228,13 @@ function toggleSkyCityOptions() {
 }
 
 function generate() {
-  // Use the name for filename logic
-  const originalName = document.getElementById("levelName").value || "CustomLevel";
-  const fileName = originalName + ".json";
-  
-  const name = originalName;
+  const name = document.getElementById("levelName").value || "CustomLevel";
   const desc = document.getElementById("levelDesc").value || "";
   const stage = document.getElementById("stage").value;
   const seedMode = document.getElementById("seedMode").value;
   const minigame = document.getElementById("minigame").value;
   const music = document.getElementById("music").value;
+  const fileName = name + ".json";
 
   const selectedOptions = Array.from(document.getElementById("plants").selectedOptions);
   const selectedPlants = selectedOptions.map(opt => opt.value);
@@ -251,10 +248,12 @@ function generate() {
     "RTID(NewWaves@.)"
   ];
 
+  // Pool Logic Override
   if (stage === "PoolDayLightStage" || stage === "PoolNightStage") {
     modules.push("RTID(PoolPuddle@LevelModules)");
   }
 
+  // Sky City Logic
   if (stage === "SkyCityStage") {
     const choice = document.getElementById("skyCityBgChoice").value;
     modules.push("RTID(SkyCitySky@CurrentLevel)");
@@ -293,19 +292,45 @@ function generate() {
     }
   }
 
+  // Minigame Logic
   if (minigame === "its_raining_seeds") {
     modules.push("RTID(DarkStormyNight@LevelModules)", "RTID(Rain@LevelModules)", "RTID(ItsRainingSeeds@LevelModules)");
     objects.push({
       "aliases": ["SeedBank"],
       "objclass": "SeedBankProperties",
       "objdata": {
-        "PresetPlantList": [
-          { "PlantType": "lilypad", "Level": -1 }
-        ],
+        "PresetPlantList": [{ "PlantType": "lilypad", "Level": -1 }],
         "SelectionMethod": "preset"
       }
     });
-  } else {
+  } 
+  else if (minigame === "Invisighoul") {
+    modules.push("RTID(InvisighoulMinigame@CurrentLevel)");
+    objects.push({
+      "aliases": ["InvisighoulMinigame"],
+      "objclass": "InvisighoulMinigameProperties",
+      "objdata": {}
+    });
+  } 
+  else if (minigame === "column_like_you_see_em") {
+    modules.push("RTID(ColumnMinigame@CurrentLevel)");
+    objects.push({
+      "aliases": ["ColumnMinigame"],
+      "objclass": "ColumnMinigameProperties",
+      "objdata": {}
+    });
+  } 
+  else if (minigame === "ZombieNimbleZombieQuick") {
+    modules.push("RTID(ZombieNimbleZombieQuick@CurrentLevel)");
+    objects.push({
+      "aliases": ["ZombieNimbleZombieQuick"],
+      "objclass": "ZombieNimbleZombieQuickProperties",
+      "objdata": { "SpeedMultiplier": 3.5 }
+    });
+  }
+
+  // Standard Seed Bank Logic (Skip if It's Raining Seeds)
+  if (minigame !== "its_raining_seeds") {
     if (seedMode === "chooser") {
       modules.push("RTID(SeedBank@CurrentLevel)");
       objects.push({
@@ -393,22 +418,18 @@ function generate() {
 
   objects.push(levelObj);
 
-  // --- NEW DOWNLOAD LOGIC ---
+  // --- DOWNLOAD LOGIC ---
   const finalJson = JSON.stringify({ version: 1, objects }, null, 2);
-  
-  // Update the textarea (so the user can still see it if they want)
   document.getElementById("output").value = finalJson;
 
-  // Create a blob and trigger a download
   const blob = new Blob([finalJson], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = fileName; // Uses the Level Name as the filename
+  a.download = fileName; 
   document.body.appendChild(a);
   a.click();
   
-  // Cleanup
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
